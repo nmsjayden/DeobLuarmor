@@ -6,7 +6,7 @@
 
     sessionStorage.setItem("get_key_query", query);
 
-    window.location.replace("/luarmor/");
+    window.location.replace("/DeobLuarmor/");
   </script>
 </head>
 <body></body>
