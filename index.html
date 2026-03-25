@@ -4,10 +4,16 @@
 <head>
 	<script>
 (function () {
-  const saved = sessionStorage.getItem("get_key_query");
-  if (saved) {
-    history.replaceState({}, "", "/luarmor/get_key" + saved);
-    sessionStorage.removeItem("get_key_query");
+  const DEFAULT_KEY = "-dsYICZJAvKVC";
+
+  const params = new URLSearchParams(window.location.search);
+  const hasKey = params.has("for");
+	
+  const isGetKey = window.location.pathname.includes("/get_key");
+
+  if (!isGetKey || !hasKey) {
+    const newUrl = "/luarmor/get_key?for=" + DEFAULT_KEY;
+    history.replaceState({}, "", newUrl);
   }
 })();
 	</script>
