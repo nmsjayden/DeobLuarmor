@@ -3,10 +3,14 @@
 
 <head>
 	<script>
-    if (location.pathname === "/luarmor/" || location.pathname.endsWith("index.html")) {
-        window.history.replaceState({}, "", "/luarmor/get_key?for=-dsYICZJAvKVC");
-    }
-    </script>
+(function () {
+  const saved = sessionStorage.getItem("get_key_query");
+  if (saved) {
+    history.replaceState({}, "", "/luarmor/get_key" + saved);
+    sessionStorage.removeItem("get_key_query");
+  }
+})();
+	</script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
