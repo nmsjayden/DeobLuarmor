@@ -4,22 +4,26 @@
   <script>
 (function () {
   const DEFAULT_KEY = "-dsYICZJAvKVC";
-
-  // Detect current folder (base path)
-  const basePath = "/" + window.location.pathname.split("/")[1];
-
+  const parts = window.location.pathname.split("/");
+  const basePath = "/" + parts[1];
   const params = new URLSearchParams(window.location.search);
   const hasKey = params.has("for");
+  const cleanPath = basePath + "/get_key";
 
-  const isGetKeyPage = window.location.pathname.endsWith("/get_key") || window.location.pathname.includes("/get_key/");
+  const currentPath = window.location.pathname.replace(/\/$/, "");
+  const isGetKeyPage = currentPath.endsWith("/get_key");
 
-  // Only redirect if we're NOT already on /get_key with ?for
   if (!isGetKeyPage || !hasKey) {
-    const newUrl = basePath + "/get_key/?for=" + DEFAULT_KEY;
-    history.replaceState({}, "", newUrl);
+    history.replaceState({}, "", cleanPath + "?for=" + DEFAULT_KEY);
+  } else {
+    // Remove trailing slash if present
+    const rawPath = window.location.pathname;
+    if (rawPath.endsWith("/")) {
+      history.replaceState({}, "", cleanPath + "?" + params.toString());
+    }
   }
 })();
-</script>
+  </script>
 </head>
 <body></body>
 </html>
