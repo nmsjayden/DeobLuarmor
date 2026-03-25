@@ -1,1 +1,1 @@
-https://nmsjayden.github.io/Deobluarmor/
+https://nmsjayden.github.io/DeobLuarmor/
