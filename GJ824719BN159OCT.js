@@ -22,6 +22,18 @@ window._deobfLog = {
     traceOpcodes: false
 };
 
+window._deobfExport = function() {
+    const blob = new Blob(
+        [JSON.stringify(window._deobfLog, null, 2)],
+        { type: 'application/json' }
+    );
+
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'deobf-log.json';
+    a.click();
+};
+
 window._deobfDump = function() {
     var log = window._deobfLog;
     console.group('%c=== DEOBFUSCATION DUMP ===', 'color:lime;font-size:14px;font-weight:bold');
