@@ -838,12 +838,13 @@ window.science = "👩🏽🚀🧪🔬";
     }();
 function I(E) {
     var stepCount = 0;
-    var MAX_STEPS = 20000; // adjust if needed
+    var MAX_STEPS = 50000; // prevents infinite loops
+    var callStack = [];    // prevents recursion overflow
 
     for (var b = [w, [D, P], K], Y = [z, d, p, I, Z, i], H; ;) {
 
         if (++stepCount > MAX_STEPS) {
-            console.warn("[VM STOPPED] Step limit reached:", MAX_STEPS);
+            console.warn("[VM STOPPED] Step limit reached", MAX_STEPS);
             window.__PARTIAL_STATE__ = E;
             break;
         }
@@ -854,7 +855,7 @@ function I(E) {
 
         H = V[opcodeIndex];
 
-        // 🔥 only log occasionally (prevents crash)
+        // optional: log only every 100 steps
         if (stepCount % 100 === 0) {
             console.log("[VM STEP]", {
                 step: stepCount,
@@ -864,7 +865,16 @@ function I(E) {
         }
 
         try {
+            // prevent unbounded recursion
+            if (callStack.length > 1000) {
+                console.warn("[VM WARNING] Preventing recursive overflow");
+                break;
+            }
+
+            // push to stack if the opcode calls I indirectly
+            callStack.push(E.n[0]);
             var q = H(E, T, e, n, b, Y);
+            callStack.pop();
 
             if (q === null) {
                 console.log("[VM END]");
