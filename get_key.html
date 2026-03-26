@@ -3,14 +3,17 @@
 <head>
   <script>
   (function () {
-    const DEFAULT_KEY = "-dsYICZJAvKVC";
     const parts = window.location.pathname.split("/");
     const basePath = "/" + parts[1];
     const params = new URLSearchParams(window.location.search);
+    const key = params.get("for");
 
-    if (!params.has("for")) {
-      history.replaceState({}, "", basePath + "/get_key?for=" + DEFAULT_KEY);
+    // Store the key if present, then go back to main page
+    if (key) {
+      try { localStorage.setItem("luarmor_key", key); } catch {}
     }
+
+    window.location.replace(basePath + "/");
   })();
   </script>
 </head>
