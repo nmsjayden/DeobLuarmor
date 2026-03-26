@@ -12,14 +12,8 @@
       try { sessionStorage.setItem("luarmor_key", key); } catch {}
     }
 
-    // Only redirect if we aren't already on the right URL
-    const alreadyCorrect =
-      window.location.pathname === basePath + "/get_key" &&
-      params.get("for") === (key || "");
-
-    if (!alreadyCorrect) {
-      window.location.replace(basePath + "/get_key?for=" + (key || ""));
-    }
+    // replaceState updates the URL without reloading — no loop possible
+    history.replaceState({}, "", basePath + "/get_key?for=" + (key || ""));
   })();
   </script>
 </head>
