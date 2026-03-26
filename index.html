@@ -672,7 +672,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
           const clone = res.clone();
           const text = await clone.text();
-          console.log("[FETCH RESPONSE]", text.slice(0, 300));
+          console.log("[FETCH RESPONSE]", text);
         } catch {
           console.log("[FETCH RESPONSE] (binary)");
         }
@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (this._proxied) {
       this.addEventListener("load", function () {
         try {
-          console.log("[XHR RESPONSE]", this.responseText.slice(0, 300));
+          console.log("[XHR RESPONSE]", this.responseText);
         } catch {
           console.log("[XHR RESPONSE] (binary)");
         }
