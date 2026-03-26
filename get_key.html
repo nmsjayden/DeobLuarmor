@@ -12,7 +12,7 @@
       try { sessionStorage.setItem("luarmor_key", key); } catch {}
     }
 
-    window.location.replace(basePath + "/");
+    window.location.replace(basePath + "/get_key?for=" + (key || ""));
   })();
   </script>
 </head>
