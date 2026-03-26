@@ -42,29 +42,6 @@
     };
 })();
 
-// ── 3. window property spy (catches DOM/storage/crypto API calls) ──
-(function() {
-    var _interesting = [
-        "localStorage", "sessionStorage", "indexedDB", "cookie",
-        "location", "document", "navigator", "crypto",
-        "WebSocket", "RTCPeerConnection"
-    ];
-    _interesting.forEach(function(prop) {
-        var original;
-        try { original = window[prop]; } catch(e) { return; }
-        Object.defineProperty(window, prop, {
-            get: function() {
-                console.log("[DEOB][window." + prop + "] accessed");
-                return original;
-            },
-            set: function(v) {
-                console.log("[DEOB][window." + prop + "] set to", v);
-                original = v;
-            },
-            configurable: true
-        });
-    });
-})();
 
 // ═══════════════════════════════════════════════════════════════════
 //  ORIGINAL SCRIPT (instrumented)
