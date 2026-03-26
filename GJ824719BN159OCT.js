@@ -838,52 +838,51 @@ window.science = "👩🏽🚀🧪🔬";
     }();
 function I(E) {
     var stepCount = 0;
-    var MAX_STEPS = 50000; // prevents infinite loops
-    var callStack = [];    // prevents recursion overflow
+    var MAX_STEPS = 100000;
+    var jobQueue = [E]; // start with initial VM state
 
-    for (var b = [w, [D, P], K], Y = [z, d, p, I, Z, i], H; ;) {
+    var b = [w, [D, P], K];
+    var Y = [z, d, p, I_trampoline, Z, i];
 
-        if (++stepCount > MAX_STEPS) {
+    while (jobQueue.length > 0) {
+        var state = jobQueue.shift();
+        stepCount++;
+
+        if (stepCount > MAX_STEPS) {
             console.warn("[VM STOPPED] Step limit reached", MAX_STEPS);
-            window.__PARTIAL_STATE__ = E;
+            window.__PARTIAL_STATE__ = state;
             break;
         }
 
-        var ip = E.n[0];
+        var ip = state.n[0];
         var opcodeIndex = K[ip++];
-        E.n[0] = ip;
+        state.n[0] = ip;
 
-        H = V[opcodeIndex];
+        var H = V[opcodeIndex];
 
-        // optional: log only every 100 steps
+        // only log sparse info
         if (stepCount % 100 === 0) {
-            console.log("[VM STEP]", {
-                step: stepCount,
-                ip: ip - 1,
-                opcode: opcodeIndex
-            });
+            console.log("[VM STEP]", { step: stepCount, ip: ip - 1, opcode: opcodeIndex });
         }
 
         try {
-            // prevent unbounded recursion
-            if (callStack.length > 1000) {
-                console.warn("[VM WARNING] Preventing recursive overflow");
-                break;
+            // if opcode is a recursive call, push new state to queue instead of calling I
+            var result = H(state, T, e, n, b, Y);
+
+            if (result === I_trampoline) {
+                // opcode wants to recurse → queue the state instead
+                jobQueue.push(state);
             }
 
-            // push to stack if the opcode calls I indirectly
-            callStack.push(E.n[0]);
-            var q = H(E, T, e, n, b, Y);
-            callStack.pop();
-
-            if (q === null) {
+            if (result === null) {
                 console.log("[VM END]");
-                window.__FINAL_STATE__ = E;
+                window.__FINAL_STATE__ = state;
                 break;
             }
+
         } catch (err) {
             console.warn("[VM ERROR]", err);
-            d(E, err);
+            d(state, err);
         }
     }
 }
