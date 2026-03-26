@@ -1,49 +1,4 @@
 // ═══════════════════════════════════════════════════════════════════
-//  DEOBFUSCATION HARNESS
-//  Paste the original `q` string below where indicated.
-//  Open DevTools → Console before running.
-//  Every decoded string, opcode, function creation, property
-//  access, network call, and eval is logged.
-// ═══════════════════════════════════════════════════════════════════
-
-// ── 1. eval / new Function intercepts ──────────────────────────────
-(function() {
-    var _eval = window.eval;
-    window.eval = function(code) {
-        console.log("[DEOB][eval]", code);
-        return _eval.call(this, code);
-    };
-
-    var _Function = window.Function;
-    window.Function = function() {
-        var args = Array.prototype.slice.call(arguments);
-        console.log("[DEOB][new Function] args:", args);
-        return _Function.apply(this, args);
-    };
-    window.Function.prototype = _Function.prototype;
-    window.Function.bind    = _Function.bind;
-    window.Function.apply   = _Function.apply;
-    window.Function.call    = _Function.call;
-})();
-
-// ── 2. Network intercepts ──────────────────────────────────────────
-(function() {
-    if (window.fetch) {
-        var _fetch = window.fetch;
-        window.fetch = function() {
-            console.log("[DEOB][fetch]", arguments[0], arguments[1]);
-            return _fetch.apply(this, arguments);
-        };
-    }
-    var _xhrOpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url) {
-        console.log("[DEOB][XHR]", method, url);
-        return _xhrOpen.apply(this, arguments);
-    };
-})();
-
-
-// ═══════════════════════════════════════════════════════════════════
 //  ORIGINAL SCRIPT (instrumented)
 // ═══════════════════════════════════════════════════════════════════
 window.funnyfaces = "\uD83D\uDE00\uD83D\uDE03\uD83D\uDE04\uD83D\uDE01\uD83D\uDE06\uD83D\uDE05\uD83D\uDE02\uD83E\uDD23";
