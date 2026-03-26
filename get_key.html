@@ -8,9 +8,8 @@
     const params = new URLSearchParams(window.location.search);
     const key = params.get("for");
 
-    // Store the key if present, then go back to main page
     if (key) {
-      try { localStorage.setItem("luarmor_key", key); } catch {}
+      try { sessionStorage.setItem("luarmor_key", key); } catch {}
     }
 
     window.location.replace(basePath + "/");
