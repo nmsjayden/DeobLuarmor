@@ -12,8 +12,8 @@
       try { sessionStorage.setItem("luarmor_key", key); } catch {}
     }
 
-    // replaceState updates the URL without reloading — no loop possible
-    history.replaceState({}, "", basePath + "/get_key?for=" + (key || ""));
+    // Go back to the main page, carrying the key in the URL
+    window.location.replace(basePath + "/?for=" + (key || ""));
   })();
   </script>
 </head>
