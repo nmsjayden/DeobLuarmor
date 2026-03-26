@@ -12,8 +12,17 @@
       try { sessionStorage.setItem("luarmor_key", key); } catch {}
     }
 
-    // Go back to the main page, carrying the key in the URL
-    window.location.replace(basePath + "" + (key || ""));
+    history.replaceState({}, "", basePath + "/get_key?for=" + (key || ""));
+
+    fetch(basePath + "/")
+      .then(r => r.text())
+      .then(html => {
+        const base = `<base href="${window.location.origin + basePath + "/"}">`;
+        html = html.replace("<head>", "<head>" + base);
+        document.open();
+        document.write(html);
+        document.close();
+      });
   })();
   </script>
 </head>
