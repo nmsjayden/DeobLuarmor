@@ -836,19 +836,46 @@ window.science = "👩🏽🚀🧪🔬";
         },
         H
     }();
-    function I(E) {
-    for (var b = [w, [D, P], K], Y = [z, d, p, I, Z, i], H; ; ) {
+function I(E) {
+    function safeClone(obj, maxDepth = 2) {
+        const seen = new WeakSet();
+
+        return JSON.parse(JSON.stringify(obj, function (key, value) {
+            if (typeof value === "object" && value !== null) {
+                if (seen.has(value)) return "[Circular]";
+                seen.add(value);
+
+                if (maxDepth-- <= 0) return "[MaxDepth]";
+            }
+
+            if (typeof value === "function") return "[Function]";
+            if (value === window) return "[Window]";
+
+            return value;
+        }));
+    }
+
+    for (var b = [w, [D, P], K], Y = [z, d, p, I, Z, i], H; ;) {
         var ip = E.n[0];
         var opcodeIndex = K[ip++];
         E.n[0] = ip;
 
         H = V[opcodeIndex];
 
-        console.log("[VM STEP]", {
-            ip: ip - 1,
-            opcode: opcodeIndex,
-            stack: JSON.parse(JSON.stringify(E.n))
-        });
+        // 🔍 Safe logging (no crash)
+        try {
+            console.log("[VM STEP]", {
+                ip: ip - 1,
+                opcode: opcodeIndex,
+                stack: safeClone(E.n)
+            });
+        } catch (logErr) {
+            console.log("[VM STEP]", {
+                ip: ip - 1,
+                opcode: opcodeIndex,
+                stack: "[Unserializable]"
+            });
+        }
 
         try {
             var q = H(E, T, e, n, b, Y);
