@@ -8,21 +8,16 @@
   const parts = window.location.pathname.split("/");
   const basePath = "/" + parts[1];
   const params = new URLSearchParams(window.location.search);
-  const cleanPath = window.location.pathname.replace(/\/$/, "");
 
   let key = params.get("for");
   if (!key) {
     try { key = sessionStorage.getItem("luarmor_key"); } catch {}
   }
   if (!key) key = DEFAULT_KEY;
-
   try { sessionStorage.setItem("luarmor_key", key); } catch {}
 
-  if (cleanPath.endsWith("/get_key")) {
-    history.replaceState({}, "", basePath + "/get_key?for=" + key);
-  } else if (!params.has("for")) {
-    history.replaceState({}, "", basePath + "/get_key?for=" + key);
-  }
+  // Always show the clean /get_key?for=... URL regardless of where we came from
+  history.replaceState({}, "", basePath + "/get_key?for=" + key);
 })();
 </script>
 
