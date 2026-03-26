@@ -18,8 +18,15 @@
   try { sessionStorage.setItem("luarmor_key", key); } catch {}
 
   const cleanPath = window.location.pathname.replace(/\/$/, "");
+
   if (cleanPath.endsWith("/get_key")) {
+    // On get_key page, show the key in URL
     history.replaceState({}, "", basePath + "/get_key?for=" + key);
+  } else {
+    // On main page, also show the key in URL
+    if (params.get("for") !== key) {
+      history.replaceState({}, "", basePath + "/?for=" + key);
+    }
   }
 })();
 </script>
