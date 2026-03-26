@@ -837,43 +837,29 @@ window.science = "👩🏽🚀🧪🔬";
         H
     }();
 function I(E) {
-    function safeClone(obj, maxDepth = 2) {
-        const seen = new WeakSet();
-
-        return JSON.parse(JSON.stringify(obj, function (key, value) {
-            if (typeof value === "object" && value !== null) {
-                if (seen.has(value)) return "[Circular]";
-                seen.add(value);
-
-                if (maxDepth-- <= 0) return "[MaxDepth]";
-            }
-
-            if (typeof value === "function") return "[Function]";
-            if (value === window) return "[Window]";
-
-            return value;
-        }));
-    }
+    var stepCount = 0;
+    var MAX_STEPS = 20000; // adjust if needed
 
     for (var b = [w, [D, P], K], Y = [z, d, p, I, Z, i], H; ;) {
+
+        if (++stepCount > MAX_STEPS) {
+            console.warn("[VM STOPPED] Step limit reached:", MAX_STEPS);
+            window.__PARTIAL_STATE__ = E;
+            break;
+        }
+
         var ip = E.n[0];
         var opcodeIndex = K[ip++];
         E.n[0] = ip;
 
         H = V[opcodeIndex];
 
-        // 🔍 Safe logging (no crash)
-        try {
+        // 🔥 only log occasionally (prevents crash)
+        if (stepCount % 100 === 0) {
             console.log("[VM STEP]", {
+                step: stepCount,
                 ip: ip - 1,
-                opcode: opcodeIndex,
-                stack: safeClone(E.n)
-            });
-        } catch (logErr) {
-            console.log("[VM STEP]", {
-                ip: ip - 1,
-                opcode: opcodeIndex,
-                stack: "[Unserializable]"
+                opcode: opcodeIndex
             });
         }
 
@@ -882,6 +868,7 @@ function I(E) {
 
             if (q === null) {
                 console.log("[VM END]");
+                window.__FINAL_STATE__ = E;
                 break;
             }
         } catch (err) {
