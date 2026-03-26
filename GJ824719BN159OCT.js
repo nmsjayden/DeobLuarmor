@@ -891,6 +891,7 @@ window.science = "👩🏽🚀🧪🔬";
 
     // PATCH: post-run summary
     try {
+        window._deobfActive = false;
         var _log = window._deobfLog;
         console.log(
             '[deobf] done ▸',
