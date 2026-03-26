@@ -191,6 +191,11 @@ window.science = "👩🏽🚀🧪🔬";
     }
 
     // -------------------------
+function i(E) {
+    return E.n[K[E.n[0]++] >> 5];
+}
+
+    // -------------------------
     // Iterative VM runner
     // -------------------------
     var jobQueue = [];
